@@ -61,5 +61,10 @@ namespace QuickJS
 		/// </summary>
 		BacktraceBarrier = (1 << 6),
 
+		/// <summary>
+		/// Allow top-level await in normal script. JS_Eval() returns a
+		/// promise. Only allowed with JS_EVAL_TYPE_GLOBAL
+		/// </summary>
+		Async = (1 << 7),
 	}
 }

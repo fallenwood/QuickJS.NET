@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using QuickJS.Native;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static QuickJS.Native.QuickJSNativeApi;
 
 namespace QuickJS
@@ -870,16 +871,35 @@ namespace QuickJS
 
 			JSValue val;
 			byte[] file = Utils.StringToManagedUTF8(filename);
+
+			var isModule = ((flags & JSEvalFlags.TypeMask) == JSEvalFlags.Module);
+
 			fixed (byte* buffer = input)
 			fixed (byte* pfile = file)
 			{
-				val = JS_Eval(this.NativeInstance, buffer, input.Length - 1, pfile, flags);
+				if (isModule)
+				{
+					val = JS_Eval(this.NativeInstance, buffer, input.Length - 1, pfile, flags | JSEvalFlags.CompileOnly);
+
+					if (!JS_IsException(val))
+					{
+						js_module_set_import_meta(this.NativeInstance, val, true, true);
+						val = JS_EvalFunction(this.NativeInstance, val);
+					}
+
+					val = js_std_await(this.NativeInstance, val);
+				}
+				else
+				{
+					val = JS_Eval(this.NativeInstance, buffer, input.Length - 1, pfile, flags);
+				}
 			}
 
 			if (JS_IsException(val))
 			{
 				ThrowPendingException();
 			}
+
 			return val;
 		}
 

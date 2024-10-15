@@ -36,6 +36,14 @@ namespace QuickJS.Native
 			get { return default; }
 		}
 
+		public static JSClassID Invalid
+		{
+			get
+			{
+				return new JSClassID { _value = 0 };
+			}
+		}
+
 		/// <summary>
 		/// Gets JS_CLASS_OBJECT
 		/// </summary>
