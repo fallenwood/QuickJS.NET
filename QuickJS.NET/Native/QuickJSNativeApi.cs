@@ -115,6 +115,9 @@ namespace QuickJS.Native
 		public static extern void JS_SetMemoryLimit(JSRuntime rt, SizeT limit);
 
 		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void JS_SetDumpFlags(JSRuntime rt, /* TODO: uint64_t */ ulong flags);
+
+		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void JS_SetGCThreshold(JSRuntime rt, SizeT gc_threshold);
 
 		/// <summary>
@@ -144,6 +147,10 @@ namespace QuickJS.Native
 
 		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void JS_SetRuntimeOpaque(JSRuntime rt, IntPtr opaque);
+
+		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int JS_AddRuntimeFinalizer(JSRuntime rt,
+									 JSRuntimeFinalizer finalizer, IntPtr arg);
 
 		/// <summary>
 		/// Marks the object <paramref name="val"/> that the cycle removal algorithm can find it.
@@ -202,6 +209,9 @@ namespace QuickJS.Native
 		public static extern JSValue JS_GetClassProto(JSContext ctx, JSClassID class_id);
 
 		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern JSValue JS_GetFunctionProto(JSContext ctx);
+
+		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern JSContext JS_NewContextRaw(JSRuntime runtime);
 
 		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -212,9 +222,6 @@ namespace QuickJS.Native
 
 		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void JS_AddIntrinsicEval(JSContext context);
-
-		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void JS_AddIntrinsicStringNormalize(JSContext ctx);
 
 		[DllImport(QuickJsLibraryName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void JS_AddIntrinsicRegExpCompiler(JSContext ctx);
@@ -527,11 +534,11 @@ namespace QuickJS.Native
 		/// </summary>
 		/// <param name="v">The <see cref="JSValue"/> to test.</param>
 		/// <returns>true if the value <paramref name="v"/> is holding a BigDecimal type; otherwise, false.</returns>
-		[MethodImpl(AggressiveInlining)]
-		public static bool JS_IsBigDecimal(JSValue v)
-		{
-			return v._tagdata.tag == JSTag.BigDecimal;
-		}
+		// [MethodImpl(AggressiveInlining)]
+		// public static bool JS_IsBigDecimal(JSValue v)
+		// {
+		// 	return v._tagdata.tag == JSTag.BigDecimal;
+		// }
 
 		/// <summary>
 		/// Determines if a given <see cref="JSValue"/> is a JavaScript boolean.

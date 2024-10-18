@@ -19,11 +19,11 @@ class Program
 			using (var context = rt.CreateContext())
 			{
 				context.StdAddHelpers();
-				context.InitModuleStd("std");
-				context.InitModuleOS("os");
+				// context.InitModuleStd("std");
+				// context.InitModuleOS("os");
 
-				// QuickJSValue globalObj = context.GetGlobal();
-				// QuickJSValue obj = QuickJSValue.Create(context);
+				//QuickJSValue globalObj = context.GetGlobal();
+				//QuickJSValue obj = QuickJSValue.Create(context);
 				// globalObj.DefineFunction("hello", Hello, 1, 0, new[] { JSValue.Create(1), obj.NativeInstance }, JSPropertyFlags.CWE);
 				// GC.KeepAlive(obj);
 				// 
@@ -39,7 +39,7 @@ class Program
 				// {
 				// 	Console.WriteLine(ex);
 				// }
-
+#if false
 				try
 				{
 					context.Eval(
@@ -69,6 +69,8 @@ class Program
 				{
 					Console.WriteLine(ex);
 				}
+#endif
+				context.Eval("var a = 1", "script.js", JSEvalFlags.Global);
 
 				// (context.EvalFile(@"G:\BUILD\QuickJS\repl.js", Encoding.ASCII, JSEvalFlags.Module | JSEvalFlags.Strip) as IDisposable)?.Dispose();
 				rt.RunStdLoop(context);

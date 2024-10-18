@@ -133,4 +133,7 @@ namespace QuickJS.Native
 	/* is_handled = TRUE means that the rejection is handled */
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	public unsafe delegate void JSHostPromiseRejectionTracker(JSContext ctx, [In] JSValue promise, [In] JSValue reason, [MarshalAs(UnmanagedType.Bool)] bool is_handled, void* opaque);
+
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	public delegate IntPtr JSRuntimeFinalizer(JSRuntime rt, IntPtr arg);
 }

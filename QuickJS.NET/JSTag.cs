@@ -6,9 +6,7 @@
 	public enum JSTag
 	{
 		/* all tags with a reference count are negative */
-		First = -11, /* first negative tag */
-		BigDecimal = -11,
-		BigInt = -10,
+		First = -9, /* first negative tag */
 		BigFloat = -9,
 		Symbol = -8,
 		String = -7,

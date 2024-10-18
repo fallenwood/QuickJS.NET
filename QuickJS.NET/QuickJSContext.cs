@@ -304,14 +304,6 @@ namespace QuickJS
 		}
 
 		/// <summary>
-		/// Adds the String.prototype.normalize() function.
-		/// </summary>
-		public void AddIntrinsicStringNormalize()
-		{
-			JS_AddIntrinsicStringNormalize(this.NativeInstance);
-		}
-
-		/// <summary>
 		/// Adds the typed arrays, buffers and the DataView class.
 		/// </summary>
 		public void AddIntrinsicTypedArrays()
